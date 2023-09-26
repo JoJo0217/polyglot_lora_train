@@ -45,7 +45,8 @@ def train(
     lora_target_modules: List[str] = ["query_key_value", "xxx"],
     # llm hyperparams
     train_on_inputs: bool = True,  # if False, masks out inputs in loss
-    add_eos_token: bool = False,
+    #add_eos_token: bool = False,
+    add_eos_token: bool = True,
     group_by_length: bool = False,  # faster, but produces an odd training loss curve
     # wandb params
     wandb_project: str = "",
@@ -54,6 +55,7 @@ def train(
     wandb_log_model: str = "",  # options: false | true
     resume_from_checkpoint: str = None,  # either training checkpoint or final adapter
     prompt_template_name: str = "kullm-v2",  # The prompt template to use, will default to alpaca.
+    weight_decay: float=0.0,
 ):
     if int(os.environ.get("LOCAL_RANK", 0)) == 0:
         print(
@@ -219,6 +221,7 @@ def train(
             fp16=True,
             logging_steps=1,
             #max_steps=10,
+            weight_decay=weight_decay,
             optim="adamw_torch",
             evaluation_strategy="steps" if val_set_size > 0 else "no",
             save_strategy="no",
@@ -247,7 +250,6 @@ def train(
         model = torch.compile(model)
 
     trainer.train(resume_from_checkpoint=resume_from_checkpoint)
-    #trainer.save_model(output_dir)
 
     model.save_pretrained(output_dir)
 
