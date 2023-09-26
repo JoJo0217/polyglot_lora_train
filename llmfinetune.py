@@ -36,7 +36,7 @@ def train(
     num_epochs: int = 6,
     learning_rate: float = 3e-4,
     cutoff_len: int = 2048,
-    val_set_size: int = 250,
+    val_set_size: int = 500,
     # lora hyperparams
     lora_r: int = 8,
     lora_alpha: int = 16,
@@ -226,7 +226,7 @@ def train(
             load_best_model_at_end=True if val_set_size > 0 else False,
             ddp_find_unused_parameters=False if ddp else None,
             group_by_length=group_by_length,
-            report_to="wandb" if use_wandb else None,
+            report_to="tensorboard",
             run_name=wandb_run_name if use_wandb else None,
         ),
         data_collator=transformers.DataCollatorForSeq2Seq(

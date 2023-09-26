@@ -1,10 +1,10 @@
 python finetune_polyglot.py \
-    --base_model 'EleutherAI/polyglot-ko-5.8b' \
+    --base_model 'EleutherAI/polyglot-ko-1.3b' \
     --data_path data/step1_inst_format.jsonl \
     --output_dir ckpt/ \
     --prompt_template_name kullm \
     --batch_size 128 \
-    --micro_batch_size 4 \
+    --micro_batch_size 1 \
     --num_epochs 3 \
     --learning_rate 3e-4 \
     --cutoff_len 1024 \
