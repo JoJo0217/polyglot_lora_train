@@ -30,7 +30,7 @@ def apply_lora(base_model_path, target_model_path, lora_path):
     model = lora_model.merge_and_unload()
 
     print(f"Saving the target model to {target_model_path}")
-    model.save_pretrained(target_model_path,max_shard_size=1024)
+    model.save_pretrained(target_model_path,max_shard_size="1024",safe_serialization=True)
     base_tokenizer.save_pretrained(target_model_path)
 
 
